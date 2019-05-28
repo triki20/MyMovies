@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 // Routers connection
 const indexRouter = require('./routes/index');
 const directorsRouter = require('./routes/directors');
+const moviesRouter = require('./routes/movies');
 
 const port = process.env.PORT || 3000; 
 
@@ -32,6 +33,7 @@ db.once('open', () => console.log('Connected to Mongoose'));
 
 app.use('/', indexRouter);
 app.use('/directors', directorsRouter);
+app.use('/movies', moviesRouter);
 
 app.listen(port, () => {
     console.log(`app listening on port ${port}`);
