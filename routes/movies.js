@@ -1,22 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // Models
 const Movie = require('../models/movie');
 const Director = require('../models/director');
-
-//Multer
 const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
-const uploadPath = path.join('public', Movie.coverImageBasePath);
-const upload = multer({
-    dest: uploadPath, // Where to store the files
-    fileFilter: (req, file, callback) => {   //Function to control which files are accepted
-        callback(null, imageMimeTypes.includes(file.mimetype))
-    }
-}) 
 
 // All Movies routes
 router.get('/', async (req, res) => {
@@ -47,36 +35,27 @@ router.get('/new', async (req, res) => {
 });
 
 // Create movies routes
-router.post('/', upload.single('cover'), async (req, res) => {
-   const fileName = req.file != null ? req.file.filename : null
+router.post('/', async (req, res) => {
     const movie = new Movie({
         title: req.body.title,
         description: req.body.description,
         runningTime: req.body.runningTime,
         category: req.body.category,
         director: req.body.director,
-        coverImageName: fileName,
         releaseDate: new Date(req.body.releaseDate)
     })
+    saveCover(movie, req.body.cover);
 
     try{
         const newMovie = await movie.save();
         //res.redirect(`movies/${newMovie.id}`);
         res.redirect('movies');
     }catch{
-        if(movie.coverImageName != null){
-            removeMovieCaver(movie.coverImageName);
-        }
         renderNewPage(res, movie, true)
     }
 });
 
-function removeMovieCaver(fileName){
-    fs.unlink(path.join(uploadPath, fileName) , (err) => {
-        if(err) console.log(err)
-    })
-}
-
+// function
 async function renderNewPage(res, movie, hasError = false){
     try{
         const directors = await Director.find({});
@@ -88,6 +67,15 @@ async function renderNewPage(res, movie, hasError = false){
         res.render('movies/new',params)
     }catch{
         res.redirect('/');
+    }
+}
+
+function saveCover(movie , coverEncoded){
+    if(coverEncoded == null) return
+    const cover = JSON.parse(coverEncoded);
+    if(cover != null && imageMimeTypes.includes(cover.type)){
+        movie.coverImage = new Buffer.from(cover.data, 'base64');
+        movie.coverImageType = cover.type;
     }
 }
 
