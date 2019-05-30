@@ -7,6 +7,7 @@ const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+var methodOverride = require('method-override')
 
 // Routers connection
 const indexRouter = require('./routes/index');
@@ -22,6 +23,7 @@ app.set('layout', 'layouts/layout');
 app.use(expressLayouts);
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }));
+app.use(methodOverride('_method'))
 
 // Connection to the DB
 mongoose.connect(process.env.DATABASE_URL,{
