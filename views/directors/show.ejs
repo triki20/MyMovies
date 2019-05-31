@@ -6,6 +6,8 @@
     <% if(movieByDirector.length > 0) { %>
         <h2>Movies By Director</h2>
         <% movieByDirector.forEach(movie => { %>
+            <a href="/movies/<%= movie.id %>">
         <img height='150' width='100' src="<%= movie.coverImagePath %>">
+        </a>
     <% }) %> 
     <% } %>

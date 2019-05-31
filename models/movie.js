@@ -39,9 +39,9 @@ const movieSchema = new mongoose.Schema({
     director: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        Ref: 'Director'
+        ref: 'Director'
     }
-});
+})
 
 movieSchema.virtual('coverImagePath').get(function() {
     if(this.coverImage != null && this.coverImageType != null){

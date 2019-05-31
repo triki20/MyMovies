@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Movie = require('./movie');
 
 const directorSchema = new mongoose.Schema({
-    name: {
+    name : {
         type: String,
         required: true,
         trim: true
@@ -10,7 +10,7 @@ const directorSchema = new mongoose.Schema({
 });
 
 directorSchema.pre('remove', function(next){
-    Movie.find({director : this.id}, (err, movies) => {
+    Movie.find({director: this.id}, (err, movies) => {
         if(err){
             next(err)
         }else if(movies.length > 0){

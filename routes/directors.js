@@ -30,19 +30,18 @@ router.get('/new', (req , res) => {
 // Create directors routes
 router.post('/', async (req , res) => {
     const director = new Director({
-        name: req.body.name  //directorName
+        name: req.body.name
     })
     try{
         const newDirector = await director.save()
-        res.redirect(`directors/${director.id}`);
+        res.redirect(`directors/${newDirector.id}`)
     }catch{
         res.render('directors/new', {
             director,
-            errorMessage : 'Error creating Director'
-        });
+            errorMessage: 'Error creating Director'
+        })
     }
-});
-
+})
 
 // View director routes
 router.get('/:id', async (req, res) => {
@@ -64,7 +63,7 @@ router.get('/:id/edit', async (req, res) => {
         const director = await Director.findById(req.params.id);
         res.render('directors/edit', { director });
     }catch{
-        res.redirect('directors');
+        res.redirect('/directors');
     }
 });
 
@@ -87,7 +86,6 @@ router.put('/:id', async (req, res) => {
         }
     }
 });
-
 
 // Delete director routes
 router.delete('/:id', async (req, res) => {
