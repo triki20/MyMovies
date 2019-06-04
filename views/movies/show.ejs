@@ -1,11 +1,23 @@
 <h2 class="page-header"><%= movie.title %></h2>
-    <img width="100" height="150" src="<%= movie.coverImagePath %>">
-    <div>Director: <%= movie.director.name %></div>
-    <div>Category: <%= movie.category %></div>
-    <div>Release Date: <%= movie.releaseDate.toDateString() %></div>
-    <div>Running Time: <%= movie.runningTime %></div>
-    <div>Description: <%= movie.description %></div>
-
-<a href="/movies/<%= movie.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', {url: `/movies/${movie.id}` }) %>
-<a href="/directors/<%= movie.director.id %>">View director</a>
+    <div class="movie-details">
+        <div>
+            <img class="movie-cover" src="<%= movie.coverImagePath %>">
+            <div class="movie-details-btn-grid">
+                <a class="btn btn-primary" href="/movies/<%= movie.id %>/edit">Edit</a>
+                <%- include('../partials/deleteForm', {url: `/movies/${movie.id}` }) %>
+                <a class="btn btn-primary movie-details-director-btn" href="/directors/<%= movie.director.id %>">View director</a>
+            </div>
+        </div>
+    <div class="movie-details-grid">
+        <div class="movie-details-label">Director:</div>
+        <div><%= movie.director.name %></div>
+        <div class="movie-details-label">Category:</div>
+        <div><%= movie.category %></div>
+        <div class="movie-details-label">Release Date:</div>
+        <div><%= movie.releaseDate.toDateString() %></div>
+        <div class="movie-details-label">Running Time:</div>
+        <div><%= movie.runningTime %></div>
+        <div class="movie-details-label">Description:</div>
+        <div><%= movie.description %></div>
+    </div>
+</div>
