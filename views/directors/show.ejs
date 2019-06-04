@@ -1,13 +1,13 @@
-<h2 class=".page-header"><%= director.name %></h2>
-<a href='/directors/<%= director.id %>/edit'>Edit</a>
- <%- include('../partials/deleteForm', {
-        url: `/directors/${director.id}` 
-    }) %>
+<h2 class="page-header"><%= director.name %></h2>
+    <div class="btn-row">
+        <a class="btn btn-primary" href='/directors/<%= director.id %>/edit'>Edit</a>
+        <%- include('../partials/deleteForm', { url: `/directors/${director.id}` }) %>
+    </div>
     <% if(movieByDirector.length > 0) { %>
-        <h2>Movies By Director</h2>
-        <% movieByDirector.forEach(movie => { %>
+        <h2 class="page-header">Movies By Director</h2>
+            <% movieByDirector.forEach(movie => { %>
             <a href="/movies/<%= movie.id %>">
-        <img height='150' width='100' src="<%= movie.coverImagePath %>">
-        </a>
-    <% }) %> 
+                <img height='150' width='100' src="<%= movie.coverImagePath %>">
+            </a>
+        <% }) %> 
     <% } %>
